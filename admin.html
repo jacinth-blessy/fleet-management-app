@@ -7,14 +7,117 @@
 </head>
 <body>
     <div class = "sidebar">
-        <h3> Add Fleet</h3>
-        <input id = "registration number" placeholder = "Reg No of Vehicle">
-        <select id = category>
-            <option id = "auto">Auto</option>
-            <option id = "car">Car</option>
-            <option id = "truck">Truck</option>
-            <option id = "bus">Bus</option>
-        </select>
+        <h3> Add Fleet</h3><br><br>
+        <form>
+            <input id = "registration number" placeholder = "Reg No of Vehicle"><br><br>
+            <select id = "category" placeholder = "Select Category"><br><br>
+                <option id = "auto">Auto</option>
+                <option id = "car">Car</option>
+                <option id = "truck">Truck</option>
+                <option id = "bus">Bus</option>
+            </select>
+            <input id = "driver name" placeholder = "Driver Name"><br><br>
+            <select id = "availability" placeholder = "Availability"><br><br>
+                <option id = "is_available"> Is Available</option>
+                <option id = "unavailable"> Unavailable</option>
+            </select>
+            <button>Add Fleet</button><br><br>
+        </form>
     </div>
+
+    <div class = "main-content">
+        <div class = "navbar">
+            <button>All Category</button><br><br>
+            <button>All Availability</button><br><br>
+            <button>Clear Filter</button><br><br>
+        </div>
+
+        <div class = "vehicles area">
+            <h4>Fleet Vehicles</h4>
+            <div class = "cards-container" id = cardscontainer></div>
+        </div>
+    </div>
+    <script>
+        let fleets = [];
+        function addFleet(){
+            const regno = document.getElementById("registration number").value.trim();
+            const category = document.getElementById("category").value;
+            const driver = document.getElementById("driver name").value;
+            const available = document.getElementById("availability").value;
+
+            if(!regno || !category || !driver)
+        {
+            alert("Please fill all required fields");
+            return;
+        }
+        const fleetObj = {
+            id : Date.now(),
+            img : "https://coding-platform.s3.amazonaws.com/dev/lms/tickets/5e80fcb6-3f8e-480c-945b-30a5359eb40e/JNmYjkVr3WOjsrbu.png",
+            regno,
+            category,
+            driver,
+            available
+        };
+
+        fleets.push(fleetObj);
+        renderCard();
+        clearForm();
+        }
+
+        function clearForm()
+        {
+            document.getElementById("registration number").value = ""
+            document.getElementById("category").value = ""
+            document.getElementById("driver name").value = ""
+            document.getElementById("availability").value = "Available"
+        }
+
+        function renderCards()
+        {
+            const container = document.getElementById("cardsContainer");
+            container.innerHTML = "";
+
+            fleets.forEach(fleet => {
+                const card = document.createElement("div");
+                card.className = "card";
+
+                card.innerHTML = `<img src = "${fleet.img}" alt = 'vehicle'/>
+                <h3>${fleet.regno}</h3>
+                <p><b>Category:</b> ${fleet.category}</p>
+                <p><b>Driver:</b> ${fleet.driver}</p>
+                <p><b>Status:</b> ${fleet.available}</p>
+
+                <button class = "update=btn">Update Driver</button>
+                <button class = "availability=btn">Change Availability</button>
+                <button class = "delete=btn">Delete Vehicle</button>`; container.appendChild(card);
+
+            });
+        }
+
+        function updateDriver(id)
+        {
+            const fleet = fleets.find(f => f.id === id);
+            const newdriver = prompt("Enter new driver name", fleet.driver);
+
+            if(newDriver && newDriver.trim()!== "")
+        {
+            fleet.driver = newDriver.trim();
+            renderCards();
+        }
+        }
+
+        function toggleAvailability(id)
+        {
+            const fleet = fleets.find(f => f.id === id);
+            fleet.available = fleet.available === "Available"?"Unavailable":"Available";
+            renderCards();
+        }
+
+        function deleteFleet(id)
+        {
+            fleets = fleets.filter(f => f.id!== id);
+            renderCards();
+        }
+    </script>
 </body>
 </html>

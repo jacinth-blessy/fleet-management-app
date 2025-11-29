@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Fleet Management App</title>
 </head>
 <heading>Fleet Management App</heading><br><br>
 <body>
@@ -14,25 +14,26 @@
         <input id = "password" name = "password"><br><br>
         <button onclick = "validateCreds()">Login</button>
     </form>
-</body>
-<script>
-    let validEmail = "admin@gmail.com";
-    let validPassword = "admin1234";
+    <script>
+    
     function validateCreds()
     {
-        const email = document.getElementById("email").value;
-        const pwd = document.getElementById("password").value;
-        if(email!==validEmail || pwd!==validPassword)
+        const email = document.getElementById("email").value.trim();
+        const pwd = document.getElementById("password").value.trim();
+
+        const validEmail = "admin@gmail.com";
+        const validPassword = "admin1234";
+
+        if(email===validEmail && pwd===validPassword)
     {
-        alert("Wrong email or password");
+        alert("Login success");
+        window.location.href = "admin.html";  
     }
     else{
-
-        alert("Login success");
-        window.location.href = "admin.html";
+        alert("Wrong email or password"); 
     }
-
-    
     }
 </script>
+</body>
+
 </html>
